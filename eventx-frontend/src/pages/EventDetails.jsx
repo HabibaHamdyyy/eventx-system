@@ -303,7 +303,7 @@ const EventDetails = () => {
       <div 
         className="relative bg-cover bg-center h-56 sm:h-64 md:h-96" 
         style={{ 
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url(${event?.bannerImage || '/images/event-placeholder.jpg'})` 
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url(${event?.bannerImage || '/eventx-logo.jpg'})` 
         }}
       >
         <div className="absolute inset-0 flex flex-col justify-end p-4 sm:p-6 md:p-10">
