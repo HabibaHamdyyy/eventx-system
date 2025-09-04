@@ -26,7 +26,13 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
+    console.log("Login request body:", req.body);
     const { email, password } = req.body;
+
+    // Validate input
+    if (!email || !password) {
+      return res.status(400).json({ message: "Email and password are required" });
+    }
 
     const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ message: "Invalid credentials" });
@@ -47,6 +53,7 @@ export const login = async (req, res) => {
       name: user.name
     });
   } catch (error) {
+    console.error("Login error:", error);
     res.status(500).json({ message: error.message });
   }
 };

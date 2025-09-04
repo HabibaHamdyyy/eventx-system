@@ -2,11 +2,11 @@
   "name": "eventx-backend",
   "private": true,
   "version": "1.0.0",
-  "main": "eventx-backend/server.js",
+  "main": "server.js",
   "scripts": {
-    "build": "cd eventx-backend && npm install",
-    "start": "cd eventx-backend && node server.js",
-    "dev": "cd eventx-backend && nodemon server.js"
+    "build": "npm install",
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",

@@ -3,8 +3,8 @@ services:
     name: eventx-backend
     env: node
     plan: free
-    buildCommand: cd eventx-backend && npm install
-    startCommand: cd eventx-backend && npm start
+    buildCommand: npm install
+    startCommand: npm start
     envVars:
       - key: NODE_ENV
         value: production
