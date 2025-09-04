@@ -4,9 +4,9 @@
   "version": "1.0.0",
   "main": "eventx-backend/server.js",
   "scripts": {
-    "start": "node eventx-backend/server.js",
-    "dev": "nodemon eventx-backend/server.js",
-    "install-backend": "cd eventx-backend && npm install"
+    "build": "cd eventx-backend && npm install",
+    "start": "cd eventx-backend && node server.js",
+    "dev": "cd eventx-backend && nodemon server.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
