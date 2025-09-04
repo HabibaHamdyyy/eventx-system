@@ -14,8 +14,8 @@ app.use(cors({
   origin: [
     "http://localhost:5173",
     "http://localhost:3000", 
-    "https://your-frontend-domain.netlify.app",
-    "https://your-frontend-domain.vercel.app"
+    "https://eventx-system.vercel.app",
+    "https://your-frontend-domain.netlify.app"
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],

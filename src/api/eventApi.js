@@ -1,10 +1,10 @@
-import axios from "./axiosInstance";
+import axiosInstance from "./axiosInstance";
 
-export const getEvents = () => axios.get("/events");
-export const getEventById = (id) => axios.get(`/events/${id}`);
-export const createEvent = (data) => axios.post("/events", data);
+export const getEvents = () => axiosInstance.get("/events");
+export const getEventById = (id) => axiosInstance.get(`/events/${id}`);
+export const createEvent = (data) => axiosInstance.post("/events", data);
 export const addEvent = (data) => createEvent(data);
-export const updateEvent = (id, data) => axios.put(`/events/${id}`, data);
-export const deleteEvent = (id) => axios.delete(`/events/${id}`);
+export const updateEvent = (id, data) => axiosInstance.put(`/events/${id}`, data);
+export const deleteEvent = (id) => axiosInstance.delete(`/events/${id}`);
 
 
