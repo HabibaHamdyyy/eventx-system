@@ -158,9 +158,11 @@ export default function AdminSidebar() {
         <button
           onClick={() => {
             localStorage.clear();
-            window.location.href = "/login";
+            setTimeout(() => {
+              window.location.href = '/login';
+            }, 100);
           }}
-          className={`flex items-center gap-2 w-full rounded-xl border border-rose-500 text-rose-300 hover:text-white hover:bg-rose-600/90 hover:border-rose-600 px-3 py-2 transition-colors ${
+          className={`w-full flex items-center space-x-3 px-3 py-2.5 text-slate-300 hover:text-white hover:bg-slate-700 rounded-lg transition-colors ${
             collapsed ? "justify-center" : ""
           }`}
         >
