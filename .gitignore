@@ -1,7 +1,0 @@
-# Backend
-eventx-backend/node_modules
-eventx-backend/.env
-
-# Frontend
-eventx-frontend/node_modules
-eventx-frontend/.env
