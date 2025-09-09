@@ -16,7 +16,7 @@ app.use(cors({
   origin: [
     "http://localhost:5173",
     "http://localhost:5000", 
-    "https://eventx-system.vercel.app",
+    "https://eventx-system-frontend.vercel.app",
     "https://eventx-system-git-main-hamdyhabiba952-9998s-projects.vercel.app"
   ],
   credentials: true,
@@ -106,3 +106,4 @@ app.use("/api/tickets", ticketRoutes);
 // Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
