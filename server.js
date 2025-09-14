@@ -18,8 +18,10 @@ app.use(express.json());
 
 // ✅ CORS
 app.use(cors({
-  origin: "https://eventx-system-frontend.vercel.app",
+  origin: "*",
   credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
 // ✅ Test endpoint
@@ -95,3 +97,4 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
 
 export default app;
+
