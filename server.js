@@ -2,72 +2,39 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
-import Event from "./models/Event.js";
-import Ticket from "./models/Ticket.js";
-import path from "path";
-import { fileURLToPath } from "url";
 
-// Configure dotenv with quiet option to prevent tips that cause path-to-regexp errors
+import authRoutes from "./routes/authRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
+import eventRoutes from "./routes/eventRoutes.js";
+import ticketRoutes from "./routes/ticketRoutes.js";
+import Event from "./models/Event.js";
+
 dotenv.config({ quiet: true });
 
 const app = express();
 
-
-app.get("/api", (req, res) => {
-  res.send("Hello from Vercel!");
-});
-
-// ✅ Middleware CORS
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "https://eventx-system-frontend.vercel.app");
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-  if (req.method === "OPTIONS") {
-    return res.sendStatus(204);
-  }
-  next();
-});
-
-// CORS error handler
-app.use((err, req, res, next) => {
-  if (err.name === 'CORSError' || err.message.includes('CORS')) {
-    console.error('CORS Error:', err);
-    return res.status(403).json({
-      error: 'CORS Error',
-      message: 'Cross-Origin Request Blocked',
-      details: err.message
-    });
-  }
-  next(err);
-});
-
+// ✅ Middleware
 app.use(express.json());
 
-// MongoDB connection
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-  .then(() => console.log("✅ MongoDB connected"))
-  .catch(err => console.error("❌ MongoDB error:", err));
+// ✅ CORS
+app.use(cors({
+  origin: "https://eventx-system-frontend.vercel.app",
+  credentials: true,
+}));
 
-// Test endpoint
+// ✅ Test endpoint
 app.get("/api/test", (req, res) => {
   res.json({ message: "Server is running!", timestamp: new Date().toISOString() });
 });
 
-// Simple notifications endpoint (mock data)
+// ✅ Notifications endpoint
 app.get("/api/notifications", async (req, res) => {
   try {
     const now = new Date();
-    const upcomingThresholdDays = 3; // events starting within N days
-    const lowSeatsThreshold = 10; // seats remaining below this
+    const upcomingThresholdDays = 3;
+    const lowSeatsThreshold = 10;
 
-    // Fetch events
     const events = await Event.find({});
-
-    // Build notifications based on event state
     const notifications = [];
 
     events.forEach(ev => {
@@ -109,23 +76,22 @@ app.get("/api/notifications", async (req, res) => {
   }
 });
 
-// Routes
-import authRoutes from "./routes/authRoutes.js";
+// ✅ Routes
 app.use("/api/auth", authRoutes);
-import userRoutes from "./routes/userRoutes.js";
 app.use("/api/users", userRoutes);
-import eventRoutes from "./routes/eventRoutes.js";
 app.use("/api/events", eventRoutes);
-import ticketRoutes from "./routes/ticketRoutes.js";
 app.use("/api/tickets", ticketRoutes);
 
+// ✅ MongoDB connection
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log("✅ MongoDB connected"))
+.catch(err => console.error("❌ MongoDB error:", err));
 
-// Server
+// ✅ Server
 const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-});
-
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
 
 export default app;
