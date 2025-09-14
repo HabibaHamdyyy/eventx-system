@@ -128,15 +128,7 @@ app.use("/api/events", eventRoutes);
 import ticketRoutes from "./routes/ticketRoutes.js";
 app.use("/api/tickets", ticketRoutes);
 
-// Serve frontend (AFTER all API routes)
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
-app.use(express.static(path.join(__dirname, "../frontend/build")));
-
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../frontend/build/index.html"));
-});
 
 // Server
 const PORT = process.env.PORT || 5000;
@@ -147,3 +139,4 @@ app.listen(PORT, () => {
 
 
 export default app;
+
