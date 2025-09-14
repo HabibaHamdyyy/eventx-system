@@ -15,7 +15,7 @@ const app = express();
 // ✅ Fixed CORS configuration
 const allowedOrigins = [
   "https://eventx-system-frontend.vercel.app",
-  "http://localhost:3000"
+  "http://localhost:5000"
 ];
 
 const corsOptions = {
@@ -60,4 +60,5 @@ app.listen(PORT, () => {
 });
 
 export default app;
+
 
