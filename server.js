@@ -2,41 +2,53 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
-
-import authRoutes from "./routes/authRoutes.js";
-import userRoutes from "./routes/userRoutes.js";
-import eventRoutes from "./routes/eventRoutes.js";
-import ticketRoutes from "./routes/ticketRoutes.js";
 import Event from "./models/Event.js";
+import Ticket from "./models/Ticket.js";
+import path from "path";
+import { fileURLToPath } from "url";
 
+// Configure dotenv with quiet option to prevent tips that cause path-to-regexp errors
 dotenv.config({ quiet: true });
 
 const app = express();
 
-// ✅ Middleware
-app.use(express.json());
-
-// ✅ CORS
 app.use(cors({
-  origin: "*",
-  credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"]
+    origin: "https://eventx-system-frontend.vercel.app",
+    credentials: true,
 }));
 
-// ✅ Test endpoint
+app.get("/api", (req, res) => {
+  res.send("Hello from Vercel!");
+});
+
+
+
+app.use(express.json());
+
+// MongoDB connection
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+  .then(() => console.log("✅ MongoDB connected"))
+  .catch(err => console.error("❌ MongoDB error:", err));
+
+// Test endpoint
 app.get("/api/test", (req, res) => {
   res.json({ message: "Server is running!", timestamp: new Date().toISOString() });
 });
 
-// ✅ Notifications endpoint
+// Simple notifications endpoint (mock data)
 app.get("/api/notifications", async (req, res) => {
   try {
     const now = new Date();
-    const upcomingThresholdDays = 3;
-    const lowSeatsThreshold = 10;
+    const upcomingThresholdDays = 3; // events starting within N days
+    const lowSeatsThreshold = 10; // seats remaining below this
 
+    // Fetch events
     const events = await Event.find({});
+
+    // Build notifications based on event state
     const notifications = [];
 
     events.forEach(ev => {
@@ -78,23 +90,23 @@ app.get("/api/notifications", async (req, res) => {
   }
 });
 
-// ✅ Routes
+// Routes
+import authRoutes from "./routes/authRoutes.js";
 app.use("/api/auth", authRoutes);
+import userRoutes from "./routes/userRoutes.js";
 app.use("/api/users", userRoutes);
+import eventRoutes from "./routes/eventRoutes.js";
 app.use("/api/events", eventRoutes);
+import ticketRoutes from "./routes/ticketRoutes.js";
 app.use("/api/tickets", ticketRoutes);
 
-// ✅ MongoDB connection
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => console.log("✅ MongoDB connected"))
-.catch(err => console.error("❌ MongoDB error:", err));
 
-// ✅ Server
+// Server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+});
+
 
 export default app;
-
